@@ -48,7 +48,7 @@ public class DiaryController {
 
     // 일기 추가 (이미지 - fix)
     @PostMapping("/creatediary/image/{id}")
-    public ResponseEntity<Diary> createDiaryWithImage(@PathVariable Long id, @RequestPart("image") MultipartFile image) {
+    public ResponseEntity<Diary> createDiaryWithImage(@PathVariable("id") Long id, @RequestPart("image") MultipartFile image) {
         String photoUrl = diaryService.saveImageAndGetUrl(image);
         Diary createdDiary = diaryService.createDiaryWithImage(id, photoUrl);
         return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
@@ -56,7 +56,7 @@ public class DiaryController {
 
     // 일기 수정
     @PutMapping("/creatediary/{id}")
-    public ResponseEntity<Diary> updateDiary(@PathVariable Long id, @RequestBody Diary updatedDiary) {
+    public ResponseEntity<Diary> updateDiary(@PathVariable("id") Long id, @RequestBody Diary updatedDiary) {
         try {
             Diary updated = diaryService.updateDiary(id, updatedDiary);
             return ResponseEntity.ok(updated);
@@ -67,7 +67,7 @@ public class DiaryController {
 
     // 일기 삭제
     @DeleteMapping("/creatediary/{id}")
-    public ResponseEntity<Void> deleteDiary(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDiary(@PathVariable("id") Long id) {
         diaryService.deleteDiary(id);
         return ResponseEntity.noContent().build();
     }

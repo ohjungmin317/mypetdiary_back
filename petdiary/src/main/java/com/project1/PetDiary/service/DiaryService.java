@@ -66,7 +66,8 @@ public class DiaryService {
     public String saveImageAndGetUrl(MultipartFile image) {
         try {
             // Get the file and save it somewhere
-            File uploadedFile = new File("C:\\Users\\KT\\Desktop\\Project1\\petdiary\\petdiary\\src\\main\\resources\\static\\images" + "/" + image.getOriginalFilename());
+            File uploadedFile = new File("C:\\Users\\KT\\Desktop\\Project1\\petdiary\\petdiary\\src\\main\\resources\\static\\" + image.getOriginalFilename());
+            System.out.println("createDiaryWithImage>>>>>>>1" + uploadedFile.getPath());
             image.transferTo(uploadedFile);
             return uploadedFile.getPath();
         } catch (Exception e) {
