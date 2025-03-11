@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PetDiaryApplication<petdiary>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.project1.PetDiary.PetDiaryApplication",
+            "projectName": "petdiary",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
