@@ -30,12 +30,19 @@ public class DiaryController {
         return diaryService.getAllDiaries();
     }
 
+    // email로 일기 가져오기
+    @GetMapping("/creatediary/{email}")
+    public ResponseEntity<List<Diary>> getDiaryByEmail(@PathVariable("email") String email) {
+        List<Diary> diary = diaryService.getDiaryByEmail(email);
+        return ResponseEntity.ok().body(diary);
+    }
+
     // ID로 일기 가져오기
     @GetMapping("/{id}")
     public ResponseEntity<Diary> getDiaryById(@PathVariable Long id) {
         Optional<Diary> diary = diaryService.getDiaryById(id);
         return diary.map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // 일기 추가 (글)
@@ -46,11 +53,12 @@ public class DiaryController {
         return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
     }
 
-    // 일기 추가 (이미지 - fix)
+    // 일기 추가 (이미지)
     @PostMapping("/creatediary/image/{id}")
-    public ResponseEntity<Diary> createDiaryWithImage(@PathVariable("id") Long id, @RequestPart("image") MultipartFile image) {
-        String photoUrl = diaryService.saveImageAndGetUrl(image);
-        Diary createdDiary = diaryService.createDiaryWithImage(id, photoUrl);
+    public ResponseEntity<Diary> createDiaryWithImage(@PathVariable("id") Long id,
+            @RequestPart("image") MultipartFile image) {
+        String fileName = diaryService.saveImageAndGetFileName(image);
+        Diary createdDiary = diaryService.createDiaryWithImage(id, fileName);
         return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
     }
 

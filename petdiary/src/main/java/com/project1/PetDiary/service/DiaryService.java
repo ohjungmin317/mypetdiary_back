@@ -54,25 +54,28 @@ public class DiaryService {
         diaryRepository.deleteById(id);
     }
 
-    // 이미지 저장 및 URL 반환
-    public Diary createDiaryWithImage(Long id, String photourl) {
+    // 이미지 저장 및 파일명 반환
+    public Diary createDiaryWithImage(Long id, String fileName) {
         return diaryRepository.findById(id).map(diary -> {
-            diary.setPhotoUrl(photourl);
+            diary.setPhotoUrl(fileName);
             return diaryRepository.save(diary);
         }).orElseThrow(() -> new RuntimeException("Diary not found"));
     }
 
-    // 이미지 하드디스크에 저장 (fix)
-    public String saveImageAndGetUrl(MultipartFile image) {
+    // 이미지 하드디스크에 저장 후 파일명 반환
+    public String saveImageAndGetFileName(MultipartFile image) {
         try {
-            // Get the file and save it somewhere
-            File uploadedFile = new File("C:\\Users\\KT\\Desktop\\Project1\\petdiary\\petdiary\\src\\main\\resources\\static\\" + image.getOriginalFilename());
-            System.out.println("createDiaryWithImage>>>>>>>1" + uploadedFile.getPath());
+            String fileName = image.getOriginalFilename();
+            File uploadedFile = new File(
+                    "C:\\Users\\KT\\Desktop\\Project1\\petdiary\\petdiary\\src\\main\\resources\\static\\" + fileName);
             image.transferTo(uploadedFile);
-            return uploadedFile.getPath();
+            return fileName;
         } catch (Exception e) {
             throw new RuntimeException("Failed to save image", e);
         }
+    }
 
+    public List<Diary> getDiaryByEmail(String email) {
+        return diaryRepository.findByEmail(email);
     }
 }
